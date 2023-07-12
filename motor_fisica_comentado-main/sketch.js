@@ -1,0 +1,79 @@
+// Aula C20 - MOTOR DE FISICA
+// Utilizamos a biblioteca matter.min, pois ela contem propriedades de motor de fisíca que podem ser aplicados aos objetos do nosso projeto
+// OBS* lembrar de verificar se todas as bibliotecas foram chamadas no index para que não ocorram erros de execução
+
+
+//Declaramos variáveis const para chamar as propriedades no projeto com mais facilidade 
+//INFO: A variável 'const' não permite alteração no valor armazenado 
+const Engine = Matter.Engine;  //motor de física
+const World = Matter.World;   //mundo físico para que as regras possam ser aplicadas
+const Bodies = Matter.Bodies;  // corpos no mundo físico
+const Body = Matter.Body;   // corpo no mundo físico
+
+//Váriáveis para a criação dos objetos
+// INFO: a variável LET, permite a alteração do valor apenas uma vez
+let engine;
+let world;
+var ball;
+var ball2;
+var ground;
+var ground2;
+var wedge;
+var angle=60;
+var poly;
+
+
+function setup() {
+  
+  createCanvas(400,400);
+  // Criação do motor de física
+  engine = Engine.create();
+  // Criação do Mundo físico e adição do motor de física ao mundo
+  world = engine.world;
+  
+
+  // Declaração de propriedades físicas que serão aplicadas ao objeto (Restituição=Elasticidade/fricção=atrito do ar)
+   var ball_options = {restitution: 1, frictionAir: 0.04}
+   //Criação do objeto (var = criação do corpo.formato do corpo (posx, posy, raio, propriedades físicas))
+   ball = Bodies.circle(100,10,20,ball_options);
+   //Adição do corpo ao mundo físico
+   World.add(world, ball);
+
+
+  // Declaração de propriedades físicas que serão aplicadas ao objeto (isStatic = objeto parado quando TRUE)
+   var ground_options = { isStatic : true}
+   //Criação do objeto (var = criação do corpo.formato do corpo (posx, posy, wid, heig,propriedades físicas))
+   ground = Bodies.rectangle(200,390,400,20,ground_options);
+   //Adição do corpo ao mundo físico
+   World.add(world,ground);
+
+   var ball2_options = {restitution: 1.1, frictionAir: 0.01}
+   ball2 = Bodies.circle(300,10,20,ball2_options);
+   World.add(world,ball2);
+
+
+   ground2 = Bodies.rectangle(300,200,200,20,ground_options);
+   World.add(world,ground2);
+
+
+  //posicionamento do raio
+  rectMode(CENTER);
+  ellipseMode(RADIUS);
+}
+
+
+function draw() 
+{
+ background(51);
+ //Atualização continua do motor de física
+ Engine.update(engine);
+ //chamada para que objeto seja criado na tela (ellipse para figuras circulares)
+ ellipse(ball.position.x,ball.position.y, 20);
+ //chamada para que objeto seja criado na tela (rect para figuras quadrilatero)
+ rect(ground.position.x,ground.position.y,400,20);
+  
+ ellipse(ball2.position.x,ball2.position.y, 20);
+
+ rect(ground2.position.x,ground2.position.y,200,20);
+}
+
